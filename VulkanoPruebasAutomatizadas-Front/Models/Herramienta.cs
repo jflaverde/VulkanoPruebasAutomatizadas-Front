@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace VulkanoPruebasAutomatizadas_Front.Models
 {
-    public class Ticket {
-        public int TicketID { get; set; }
-
-        public string TicketName { get; set; }
+    public class Herramienta
+    {
+        public int ID { get; set; }
+        public string Nombre { get; set; }
     }
 }
-
