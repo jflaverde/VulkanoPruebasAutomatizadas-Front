@@ -13,16 +13,34 @@ namespace VulkanoPruebasAutomatizadas_Front
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+
+        public IConfiguration Configuration { get; private set; }
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            string environmentString = string.Empty;
+            if(env.IsDevelopment())
+            {
+                environmentString = $"appsettings.{env.EnvironmentName}.json";
+            }
+            else
+            {
+                environmentString = "appsettings.json";
+            }
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile(environmentString, optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -30,21 +48,13 @@ namespace VulkanoPruebasAutomatizadas_Front
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
