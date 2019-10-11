@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using VulkanoPruebasAutomatizadas_Front.Models;
 using System.Net.Http.Formatting;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
 namespace VulkanoPruebasAutomatizadas_Front.Controllers
 {
@@ -24,13 +25,11 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
             this.configuration = configuration;
         }
 
-
         public IActionResult Crear(Estrategia estrategia) {
 
             ViewData["aplicaciones"] = ApplicationList();
             ViewData["mqTipoPruebas"] = MQTipoPruebasList();
-            if (estrategia.Estrategia_ID != 0)
-            {
+            //if (estrategia.Estrategia_ID != 0) {
                 estrategia.Estado = new Estado()
                 {
                     ID = 1
@@ -46,12 +45,51 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
                     var response = JsonConvert.DeserializeObject<ReturnMessage>(resultString);
                     ViewData["responseMessage"] = response;
                 }
-            }
+            //}
 
             return View();
         }
+                
+        public IActionResult AgregarPrueba(string NombrePrueba, string Parametros, string Descripcion, int TipoPrueba)
+        {
+            List<TipoPrueba> tiposPrueba = HttpContext.Session.GetObject<List<TipoPrueba>>("TiposPrueba");
 
-        //pu
+            if (tiposPrueba == null)
+            {
+                tiposPrueba = new List<TipoPrueba>();
+            }
+
+            TipoPrueba tipoPrueba = new TipoPrueba();
+            tipoPrueba.Nombre = NombrePrueba;
+            tipoPrueba.Parametros = Parametros;
+            tipoPrueba.Descripcion = Descripcion;
+            MQTipoPrueba tp = new MQTipoPrueba();
+            tp.ID = TipoPrueba;
+            tipoPrueba.MQTipoPrueba = tp;
+            tiposPrueba.Add(tipoPrueba);
+            
+
+            // Guarda la lista en Sesion
+            HttpContext.Session.SetObject("TiposPrueba", tiposPrueba);
+
+            //var list = HttpContext.Session.GetObject<List<TipoPrueba>>("TiposPrueba");
+            //return Json(list);
+            return Ok(new { response = "OK" });          
+        }
+        public IActionResult TiposPruebaList(int id)
+        {
+            List<TipoPrueba> tiposPrueba = HttpContext.Session.GetObject<List<TipoPrueba>>("TiposPrueba");
+
+            if (tiposPrueba == null)
+            {
+                tiposPrueba = new List<TipoPrueba>();
+            }
+
+            ViewData["tiposPrueba-"] = tiposPrueba;
+
+            return PartialView();
+        }
+
 
         public IActionResult TicketList()
         {
@@ -130,5 +168,24 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
 
             return null;
         }
+    }
+    
+    public static class SessionExtensions
+    {
+        public static void SetObject(this ISession session, string key, object value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public static void SetObjectList(this ISession session, string key, List<object> value)
+        {           
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public static T GetObject<T>(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        }   
     }
 }

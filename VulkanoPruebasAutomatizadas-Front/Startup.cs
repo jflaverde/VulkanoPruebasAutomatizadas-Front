@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Session;
 
 namespace VulkanoPruebasAutomatizadas_Front
 {
@@ -46,18 +47,30 @@ namespace VulkanoPruebasAutomatizadas_Front
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            });            
+            services.AddDistributedMemoryCache();
+            
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddSessionStateTempDataProvider();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddSession();
+            services.AddSession(options =>
+            {
+                options.CookieHttpOnly = true;
+                options.CookieName = ".ASPNetCoreSession";
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.CookiePath = "/";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            
-
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            //Enable session before MVC
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

@@ -47,6 +47,8 @@
             </div>
         </div>
     </div>
+
+    <!-- BEGIN - TIPO DE PRUEBA -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
@@ -59,7 +61,7 @@
                             <div class="col-md-5 pr-1">
                                 <div class="form-group">
                                     <label>Nombre de la prueba</label>
-                                    <input type="text" class="form-control" placeholder="Nombre Prueba">
+                                    <input type="text" id="nombre-prueba" class="form-control" placeholder="Nombre Prueba">
                                 </div>
                             </div>
                         </div>
@@ -67,7 +69,7 @@
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
                                     <label>Parametros</label>
-                                    <input type="text" class="form-control" placeholder="Parametros">
+                                    <input type="text" id="parametros" class="form-control" placeholder="Parámetros">
                                 </div>
                             </div>
                         </div>
@@ -75,7 +77,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Descripción</label>
-                                    <input type="text" class="form-control" placeholder="Descripcion">
+                                    <input type="text" id="descripcion" class="form-control" placeholder="Descripción">
                                 </div>
                             </div>
                         </div>
@@ -83,20 +85,23 @@
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
                                     <label>Tipo de Prueba</label>
-                                    @Html.DropDownListFor(x => x.TipoPruebas, (mqTipoPruebas), new { @class = "form-control" })
+                                    @Html.DropDownListFor(x => x.TipoPruebas, (mqTipoPruebas), new { @class = "form-control", id="tipo-prueba" })
                                 </div>
                             </div>
                         </div>
                         <div class="file-field">
-                            <input id="input-2" name="input2[]" type="file" class="file" data-show-upload="false" data-show-caption="true" multiple>
+                            <!--<input id="input-2" name="input2[]" type="file" class="file" data-show-upload="false" data-show-caption="true" multiple>-->
+                            <input id="files" name="files" type="file" size="1" multiple />
                         </div>
-                        <button type="submit" class="btn btn-info btn-fill pull-right">Agregar Prueba</button>
+                        <a href="javascript:void(0);" onclick="AgregarPrueba();" class="btn btn-info btn-fill pull-right">Agregar Prueba</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- END - TIPO DE PRUEBA -->
+    <!-- BEGIN - LISTADO TIPOS DE PRUEBA -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
@@ -105,18 +110,8 @@
                         <h4 class="card-title">Pruebas Agregadas</h4>
                     </div>
                     <div class="card-body">
-                        <div class="card-body table-full-width table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                <th>Nombre</th>
-                                <th>Parametros</th>
-                                <th>Descripción</th>
-                                <th>Cantidad Scripts</th>
-                                <th>Opciones</th>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                        <div id="tiposPruebaDynamicContentContainer">
+                            <!-- AQUI SE PINTA EL CONTENIDO DE LOS TIPOS DE PRUEBA AGREGADOS -->
                         </div>
                     </div>
                 </div>
@@ -124,6 +119,77 @@
         </div>
     </div>
 
+    <script type="text/javascript">
+
+        // Al iniciar script invoca listado de pruebas
+        TiposPruebaRender();
+
+        // Agregar prueba
+        function AgregarPrueba() {
+
+            uploadFiles('files');
+
+            $.ajax(
+            {
+                url: "@Url.Action("AgregarPrueba","Estrategia")",
+                data: {
+                    NombrePrueba: $("#nombre-prueba").val(),
+                    Parametros : $("#parametros").val(),
+                    Descripcion: $("#descripcion").val(),
+                    TipoPrueba: $("#tipo-prueba").val()
+                },
+                async: true,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    LimpiarCamposTipoPrueba();
+                    TiposPruebaRender();
+                }
+            });
+        } 
+
+
+        function LimpiarCamposTipoPrueba()
+        {
+            $("#nombre-prueba").val(''),
+            $("#parametros").val(''),
+            $("#descripcion").val(''),
+            $("#tipo-prueba").val('1')
+        }
+               
+        // Recarga vista con listado de pruebas
+        function TiposPruebaRender()
+        {
+            $.get('@Url.Action("TiposPruebaList", "Estrategia")', {id : 1}, function(content){
+                $("#tiposPruebaDynamicContentContainer").html(content);
+            });
+        }
+
+        // 
+        function uploadFiles(inputId) {
+            var input = document.getElementById(inputId);
+            var files = input.files;
+            var formData = new FormData();
+
+            for (var i = 0; i != files.length; i++) {
+                formData.append("files", files[i]);
+            }
+
+            $.ajax(
+            {
+                url: "/FileUpload/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    console.log("¡Archivos cargados!");
+                }
+            });
+        }
+
+    </script>
+    <!-- END - LISTADO TIPOS DE PRUEBA -->
 
     <div class="container-fluid">
         <div class="row form-group">
@@ -132,16 +198,14 @@
         </div>
     </div>
 
-
 </form>
 
 <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Agregar archivos</button>
+<!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Agregar archivos</button>--->
 
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<!-- Attachment-Modal -->
+<div id="Attachment-Modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -149,57 +213,14 @@
                 <h4 class="modal-title">Modal Header</h4>
             </div>
             <div class="modal-body">
-                <form method="post" enctype="multipart/form-data" asp-controller="FileUpload" asp-action="Index">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <p>Cargue uno o mas archivos:</p>
-                            <input type="file" name="files" multiple class="btn btn-success" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="submit" value="Guardar" class="btn btn-info" />
-                        </div>
-                    </div>
-                </form>
-
-                <hr />
-
-
                 <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
                     <div class="buttons">
                         <div class="upload-button">
                             <div class="label">Click me!</div>
-                            <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
+                            <input id="files-2" name="files" type="file" size="1" multiple onchange="uploadFiles('files-2');" />
                         </div>
                     </div>
                 </form>
-                <script type="text/javascript">
-
-                    function uploadFiles(inputId) {
-                        var input = document.getElementById(inputId);
-                        var files = input.files;
-                        var formData = new FormData();
-
-                        for (var i = 0; i != files.length; i++) {
-                            formData.append("files", files[i]);
-                        }
-
-                        $.ajax(
-                        {
-                            url: "/FileUpload/upload",
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            type: "POST",
-                            success: function (data) {
-                            alert("Files Uploaded!");
-                            }
-                        });
-                    }
-                </script>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
