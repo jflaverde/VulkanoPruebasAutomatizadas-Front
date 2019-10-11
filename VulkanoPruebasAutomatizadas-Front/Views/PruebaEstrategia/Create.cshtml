@@ -1,0 +1,99 @@
+﻿@model VulkanoPruebasAutomatizadas_Front.Models.TipoPrueba
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+
+}
+<h2>Create</h2>
+
+<h4>TipoPrueba</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Parametros" class="control-label"></label>
+                <input asp-for="Parametros" class="form-control" />
+                <span asp-validation-for="Parametros" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="file-field">
+                <!--<input id="input-2" name="input2[]" type="file" class="file" data-show-upload="false" data-show-caption="true" multiple>-->
+                <input id="files" name="files" type="file" size="1" multiple />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Attachment-Modal -->
+<div id="Attachment-Modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
+                    <div class="buttons">
+                        <div class="upload-button">
+                            <div class="label">Click me!</div>
+                            <input id="files-2" name="files" type="file" size="1" multiple onchange="uploadFiles('files-2');" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Subir Archivos
+    function uploadFiles(inputId) {
+        var input = document.getElementById(inputId);
+        var files = input.files;
+        var formData = new FormData();
+
+        for (var i = 0; i != files.length; i++) {
+            formData.append("files", files[i]);
+        }
+
+        $.ajax(
+            {
+                url: "/FileUpload/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    console.log("¡Archivos cargados!");
+                }
+            });
+    }
+
+</script>
+
+<div>
+    <a href="@(Url.Action("TicketList","Estrategia"))">Back to List</a>
+</div>
+

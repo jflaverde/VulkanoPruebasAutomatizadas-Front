@@ -9,8 +9,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
     var aplicaciones = (IEnumerable<SelectListItem>)ViewData["aplicaciones"];
-    var mqTipoPruebas = (IEnumerable<SelectListItem>)ViewData["mqTipoPruebas"];
-    var tipoPruebas = new List<TipoPrueba>();
+    var response = (ReturnMessage)ViewData["responseMessage"];
 }
 <h2 class="card-title">Agregar Nueva Estrategia</h2>
 <form method="post" action="@Url.Action("Crear","Estrategia")">
@@ -48,186 +47,20 @@
         </div>
     </div>
 
-    <!-- BEGIN - TIPO DE PRUEBA -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">2. Defina los Tipos de prueba</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-5 pr-1">
-                                <div class="form-group">
-                                    <label>Nombre de la prueba</label>
-                                    <input type="text" id="nombre-prueba" class="form-control" placeholder="Nombre Prueba">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 pr-1">
-                                <div class="form-group">
-                                    <label>Parametros</label>
-                                    <input type="text" id="parametros" class="form-control" placeholder="Parámetros">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Descripción</label>
-                                    <input type="text" id="descripcion" class="form-control" placeholder="Descripción">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 pr-1">
-                                <div class="form-group">
-                                    <label>Tipo de Prueba</label>
-                                    @Html.DropDownListFor(x => x.TipoPruebas, (mqTipoPruebas), new { @class = "form-control", id="tipo-prueba" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="file-field">
-                            <!--<input id="input-2" name="input2[]" type="file" class="file" data-show-upload="false" data-show-caption="true" multiple>-->
-                            <input id="files" name="files" type="file" size="1" multiple />
-                        </div>
-                        <a href="javascript:void(0);" onclick="AgregarPrueba();" class="btn btn-info btn-fill pull-right">Agregar Prueba</a>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END - TIPO DE PRUEBA -->
-    <!-- BEGIN - LISTADO TIPOS DE PRUEBA -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Pruebas Agregadas</h4>
-                    </div>
-                    <div class="card-body">
-                        <div id="tiposPruebaDynamicContentContainer">
-                            <!-- AQUI SE PINTA EL CONTENIDO DE LOS TIPOS DE PRUEBA AGREGADOS -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script type="text/javascript">
-
-        // Al iniciar script invoca listado de pruebas
-        TiposPruebaRender();
-
-        // Agregar prueba
-        function AgregarPrueba() {
-
-            uploadFiles('files');
-
-            $.ajax(
-            {
-                url: "@Url.Action("AgregarPrueba","Estrategia")",
-                data: {
-                    NombrePrueba: $("#nombre-prueba").val(),
-                    Parametros : $("#parametros").val(),
-                    Descripcion: $("#descripcion").val(),
-                    TipoPrueba: $("#tipo-prueba").val()
-                },
-                async: true,
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    LimpiarCamposTipoPrueba();
-                    TiposPruebaRender();
-                }
-            });
-        } 
-
-
-        function LimpiarCamposTipoPrueba()
-        {
-            $("#nombre-prueba").val(''),
-            $("#parametros").val(''),
-            $("#descripcion").val(''),
-            $("#tipo-prueba").val('1')
-        }
-               
-        // Recarga vista con listado de pruebas
-        function TiposPruebaRender()
-        {
-            $.get('@Url.Action("TiposPruebaList", "Estrategia")', {id : 1}, function(content){
-                $("#tiposPruebaDynamicContentContainer").html(content);
-            });
-        }
-
-        // 
-        function uploadFiles(inputId) {
-            var input = document.getElementById(inputId);
-            var files = input.files;
-            var formData = new FormData();
-
-            for (var i = 0; i != files.length; i++) {
-                formData.append("files", files[i]);
-            }
-
-            $.ajax(
-            {
-                url: "/FileUpload/upload",
-                data: formData,
-                processData: false,
-                contentType: false,
-                type: "POST",
-                success: function (data) {
-                    console.log("¡Archivos cargados!");
-                }
-            });
-        }
-
-    </script>
-    <!-- END - LISTADO TIPOS DE PRUEBA -->
-
     <div class="container-fluid">
         <div class="row form-group">
             <input type="submit" class="btn btn-info btn-fill pull-right" value="Crear Estrategia">
-            <a>Regresar</a>
         </div>
     </div>
 
-</form>
 
-<!-- Trigger the modal with a button -->
-<!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Agregar archivos</button>--->
-
-<!-- Attachment-Modal -->
-<div id="Attachment-Modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
-                    <div class="buttons">
-                        <div class="upload-button">
-                            <div class="label">Click me!</div>
-                            <input id="files-2" name="files" type="file" size="1" multiple onchange="uploadFiles('files-2');" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+    @if (response != null)
+    {
+            <script>
+            function Response() {
+                alert("@response.Mensaje");
+    }
+            </script>
+    }
+ </form>
 

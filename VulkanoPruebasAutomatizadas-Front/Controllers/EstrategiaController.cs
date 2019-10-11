@@ -28,8 +28,9 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
         public IActionResult Crear(Estrategia estrategia) {
 
             ViewData["aplicaciones"] = ApplicationList();
-            ViewData["mqTipoPruebas"] = MQTipoPruebasList();
-            //if (estrategia.Estrategia_ID != 0) {
+
+
+            if (!string.IsNullOrEmpty(estrategia.Nombre)) {
                 estrategia.Estado = new Estado()
                 {
                     ID = 1
@@ -45,7 +46,7 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
                     var response = JsonConvert.DeserializeObject<ReturnMessage>(resultString);
                     ViewData["responseMessage"] = response;
                 }
-            //}
+            }
 
             return View();
         }
@@ -90,7 +91,7 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
             return PartialView();
         }
 
-
+        //Lista las estrategias.
         public IActionResult TicketList()
         {
             HttpClient client = new HttpClient();
