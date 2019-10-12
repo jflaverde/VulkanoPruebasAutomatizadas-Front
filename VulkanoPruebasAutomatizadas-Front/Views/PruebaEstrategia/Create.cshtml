@@ -7,14 +7,45 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
 
-}
-<h2>Create</h2>
+    var estrategia_id = (int)ViewData["estrategia_id"];
+    var mqTipoPruebas = (IEnumerable<SelectListItem>)ViewData["mqTipoPruebas"];
+    ReturnMessage response= new ReturnMessage();
+    if(ViewData["responseMessage"]!=null)
+    {
+         response= (ReturnMessage)ViewData["responseMessage"];
+    }
 
-<h4>TipoPrueba</h4>
+}
+<h2>Crear Prueba para Estrategia @estrategia_id</h2>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        @if (response != null && !string.IsNullOrEmpty(response.Mensaje))
+        {
+            if (response.TipoMensaje == TipoMensaje.Correcto)
+            {
+                <div class="alert alert-success">@response.Mensaje</div>
+            }
+            else
+            {
+                <div class="alert alert-danger">@response.Mensaje</div>
+            }
+
+            <script type="text/javascript">
+                $(document).ready(function () {LimpiarCamposTipoPrueba(); });
+                function LimpiarCamposTipoPrueba()
+                {
+                    $("#Nombre").val(''),
+                    $("#Parametros").val(''),
+                    $("#Descripcion").val(''),
+                    $("#MQTipoPrueba_ID").val('1')
+                }
+            </script>
+        }
+        <form asp-action="Create" method="post">
+            <input type="hidden" name="estrategia_id" value="@estrategia_id" />
+            <input type="hidden" name="rutaScript" id="rutaScript" />
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -30,40 +61,22 @@
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <div class="col-md-5 pr-1">
+                    <div class="form-group">
+                        <label>Tipo de Prueba</label>
+                        @Html.DropDownListFor(x => x.MQTipoPrueba.ID, (mqTipoPruebas), new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
             <div class="file-field">
                 <!--<input id="input-2" name="input2[]" type="file" class="file" data-show-upload="false" data-show-caption="true" multiple>-->
-                <input id="files" name="files" type="file" size="1" multiple />
+                <input id="files" name="files" type="file" size="1" onchange="uploadFiles('files');" required />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
-    </div>
-</div>
-
-<!-- Attachment-Modal -->
-<div id="Attachment-Modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
-                    <div class="buttons">
-                        <div class="upload-button">
-                            <div class="label">Click me!</div>
-                            <input id="files-2" name="files" type="file" size="1" multiple onchange="uploadFiles('files-2');" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -87,6 +100,7 @@
                 type: "POST",
                 success: function (data) {
                     console.log("¡Archivos cargados!");
+                    $('#rutaScript').val(data.filePaths[0])
                 }
             });
     }

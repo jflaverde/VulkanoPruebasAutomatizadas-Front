@@ -25,5 +25,10 @@ namespace VulkanoPruebasAutomatizadas_Front.Models
         [Required]
         [Display(Name = "Tipos de Prueba")]
         public List<TipoPrueba> TipoPruebas { get; set; }
+
+        public Estrategia()
+        {
+            TipoPruebas = new List<TipoPrueba>();
+        }
     }
 }

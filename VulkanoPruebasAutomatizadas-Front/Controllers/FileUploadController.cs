@@ -75,7 +75,7 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    return Ok(new { count = files.Count, size, filePaths, message = ex.Message });
                 }
                                    
             }

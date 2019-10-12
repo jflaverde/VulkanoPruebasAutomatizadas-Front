@@ -24,5 +24,11 @@ namespace VulkanoPruebasAutomatizadas_Front.Models
         [Required]
         [Display(Name = "Tipo de prueba")]
         public MQTipoPrueba MQTipoPrueba { get; set; }
+
+        public TipoPrueba()
+        {
+            MQTipoPrueba = new MQTipoPrueba();
+            Script = new Script();
+        }
     }
 }
