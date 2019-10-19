@@ -17,6 +17,9 @@
     <Content Update="Views\Application\Crear.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Estrategia\TiposPruebaList.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Herramienta\Crear.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

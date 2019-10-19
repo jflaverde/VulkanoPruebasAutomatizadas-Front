@@ -9,8 +9,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
     var aplicaciones = (IEnumerable<SelectListItem>)ViewData["aplicaciones"];
-    var mqTipoPruebas = (IEnumerable<SelectListItem>)ViewData["mqTipoPruebas"];
-    var tipoPruebas = new List<TipoPrueba>();
+    var response = (ReturnMessage)ViewData["responseMessage"];
 }
 <h2 class="card-title">Agregar Nueva Estrategia</h2>
 <form method="post" action="@Url.Action("Crear","Estrategia")">
@@ -47,166 +46,21 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">2. Defina los Tipos de prueba</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-5 pr-1">
-                                <div class="form-group">
-                                    <label>Nombre de la prueba</label>
-                                    <input type="text" class="form-control" placeholder="Nombre Prueba">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 pr-1">
-                                <div class="form-group">
-                                    <label>Parametros</label>
-                                    <input type="text" class="form-control" placeholder="Parametros">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Descripción</label>
-                                    <input type="text" class="form-control" placeholder="Descripcion">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 pr-1">
-                                <div class="form-group">
-                                    <label>Tipo de Prueba</label>
-                                    @Html.DropDownListFor(x => x.TipoPruebas, (mqTipoPruebas), new { @class = "form-control" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="file-field">
-                            <input id="input-2" name="input2[]" type="file" class="file" data-show-upload="false" data-show-caption="true" multiple>
-                        </div>
-                        <button type="submit" class="btn btn-info btn-fill pull-right">Agregar Prueba</button>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Pruebas Agregadas</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-body table-full-width table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                <th>Nombre</th>
-                                <th>Parametros</th>
-                                <th>Descripción</th>
-                                <th>Cantidad Scripts</th>
-                                <th>Opciones</th>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <div class="container-fluid">
         <div class="row form-group">
             <input type="submit" class="btn btn-info btn-fill pull-right" value="Crear Estrategia">
-            <a>Regresar</a>
         </div>
     </div>
 
 
-</form>
-
-<!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Agregar archivos</button>
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" enctype="multipart/form-data" asp-controller="FileUpload" asp-action="Index">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <p>Cargue uno o mas archivos:</p>
-                            <input type="file" name="files" multiple class="btn btn-success" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="submit" value="Guardar" class="btn btn-info" />
-                        </div>
-                    </div>
-                </form>
-
-                <hr />
-
-
-                <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
-                    <div class="buttons">
-                        <div class="upload-button">
-                            <div class="label">Click me!</div>
-                            <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
-                        </div>
-                    </div>
-                </form>
-                <script type="text/javascript">
-
-                    function uploadFiles(inputId) {
-                        var input = document.getElementById(inputId);
-                        var files = input.files;
-                        var formData = new FormData();
-
-                        for (var i = 0; i != files.length; i++) {
-                            formData.append("files", files[i]);
-                        }
-
-                        $.ajax(
-                        {
-                            url: "/FileUpload/upload",
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            type: "POST",
-                            success: function (data) {
-                            alert("Files Uploaded!");
-                            }
-                        });
-                    }
-                </script>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+    @if (response != null)
+    {
+            <script>
+            function Response() {
+                alert("@response.Mensaje");
+    }
+            </script>
+    }
+ </form>
 
