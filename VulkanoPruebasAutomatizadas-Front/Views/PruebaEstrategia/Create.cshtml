@@ -1,0 +1,113 @@
+﻿@model VulkanoPruebasAutomatizadas_Front.Models.TipoPrueba
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+
+    var estrategia_id = (int)ViewData["estrategia_id"];
+    var mqTipoPruebas = (IEnumerable<SelectListItem>)ViewData["mqTipoPruebas"];
+    ReturnMessage response= new ReturnMessage();
+    if(ViewData["responseMessage"]!=null)
+    {
+         response= (ReturnMessage)ViewData["responseMessage"];
+    }
+
+}
+<h2>Crear Prueba para Estrategia @estrategia_id</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (response != null && !string.IsNullOrEmpty(response.Mensaje))
+        {
+            if (response.TipoMensaje == TipoMensaje.Correcto)
+            {
+                <div class="alert alert-success">@response.Mensaje</div>
+            }
+            else
+            {
+                <div class="alert alert-danger">@response.Mensaje</div>
+            }
+
+            <script type="text/javascript">
+                $(document).ready(function () {LimpiarCamposTipoPrueba(); });
+                function LimpiarCamposTipoPrueba()
+                {
+                    $("#Nombre").val(''),
+                    $("#Parametros").val(''),
+                    $("#Descripcion").val(''),
+                    $("#MQTipoPrueba_ID").val('1')
+                }
+            </script>
+        }
+        <form asp-action="Create" method="post">
+            <input type="hidden" name="estrategia_id" value="@estrategia_id" />
+            <input type="hidden" name="rutaScript" id="rutaScript" />
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Parametros" class="control-label"></label>
+                <input asp-for="Parametros" class="form-control" />
+                <span asp-validation-for="Parametros" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-5 pr-1">
+                    <div class="form-group">
+                        <label>Tipo de Prueba</label>
+                        @Html.DropDownListFor(x => x.MQTipoPrueba.ID, (mqTipoPruebas), new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="file-field">
+                <!--<input id="input-2" name="input2[]" type="file" class="file" data-show-upload="false" data-show-caption="true" multiple>-->
+                <input id="files" name="files" type="file" size="1" onchange="uploadFiles('files');" required />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Subir Archivos
+    function uploadFiles(inputId) {
+        var input = document.getElementById(inputId);
+        var files = input.files;
+        var formData = new FormData();
+
+        for (var i = 0; i != files.length; i++) {
+            formData.append("files", files[i]);
+        }
+
+        $.ajax(
+            {
+                url: "/FileUpload/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    console.log("¡Archivos cargados!");
+                    $('#rutaScript').val(data.filePaths[0])
+                }
+            });
+    }
+
+</script>
+
+<div>
+    <a href="@(Url.Action("TicketList","Estrategia"))">Back to List</a>
+</div>
+

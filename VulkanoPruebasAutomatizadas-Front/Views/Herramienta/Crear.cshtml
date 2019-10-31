@@ -1,0 +1,92 @@
+﻿@model Herramienta
+
+@{
+    ViewData["Title"] = "Crear Herramienta";
+    ViewBag.Title = "Crear";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+    ReturnMessage response = new ReturnMessage();
+    if (ViewData["responseMessage"] != null)
+    {
+        response = (ReturnMessage)ViewData["responseMessage"];
+    }
+}
+
+<h2 class="card-title">Agregar Nueva Herramienta</h2>
+@if (response != null && !string.IsNullOrEmpty(response.Mensaje))
+{
+    if (response.TipoMensaje == TipoMensaje.Correcto)
+    {
+        <div class="alert alert-success">@response.Mensaje</div>
+    }
+    else
+    {
+        <div class="alert alert-danger">@response.Mensaje</div>
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () { LimpiarCamposHerramienta(); });
+        function LimpiarCamposHerramienta() {
+            $("#Nombre").val(''),
+        }
+    </script>
+}
+<form method="post" action="@Url.Action("Crear","Herramienta")">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Herramienta</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Nombre de la Herramienta</label>
+                                        @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Nombre de la Herramienta</label>
+                                        @Html.TextBoxFor(x => x.Tipo_Prueba, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Nombre de la Herramienta</label>
+                                        @Html.CheckBoxFor(x => x.Es_Web)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row form-group">
+            <input type="submit" class="btn btn-info btn-fill pull-right" value="Crear Herramienta">
+        </div>
+    </div>
+
+    @if (response != null)
+    {
+        <script>
+            function Response() {
+                alert("@response.Mensaje");
+    }
+        </script>
+    }
+</form>
