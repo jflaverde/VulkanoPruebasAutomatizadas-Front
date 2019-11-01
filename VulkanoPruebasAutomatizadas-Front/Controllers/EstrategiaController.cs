@@ -121,11 +121,11 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
             client.BaseAddress = new Uri(configuration.GetValue<string>("Config:APIURL"));
 
             var request = client.GetAsync("aplicacion").Result;
-            List<Aplicacion> aplicaciones = new List<Aplicacion>();
             if (request.IsSuccessStatusCode)
             {
                 var resultString = request.Content.ReadAsStringAsync().Result;
-                aplicaciones = JsonConvert.DeserializeObject<List<Aplicacion>>(resultString);
+                var mensaje = JsonConvert.DeserializeObject<ReturnMessage>(resultString);
+                var aplicaciones = JsonConvert.DeserializeObject<List<Aplicacion>>(mensaje.obj.ToString());
                 var selectAplicaciones = aplicaciones
                 .Select(x => new SelectListItem
                 {
