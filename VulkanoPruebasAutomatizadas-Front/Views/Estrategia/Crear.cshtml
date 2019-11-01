@@ -9,10 +9,10 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
     var aplicaciones = (IEnumerable<SelectListItem>)ViewData["aplicaciones"];
-    ReturnMessage response= new ReturnMessage();
-    if(ViewData["responseMessage"]!=null)
+    ReturnMessage response = new ReturnMessage();
+    if (ViewData["responseMessage"] != null)
     {
-         response= (ReturnMessage)ViewData["responseMessage"];
+        response = (ReturnMessage)ViewData["responseMessage"];
     }
 }
 <h2 class="card-title">Agregar Nueva Estrategia</h2>
@@ -50,7 +50,7 @@
                                 <div class="col-md-5 pr-1">
                                     <div class="form-group">
                                         <label>Nombre de la Estrategia</label>
-                                        @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control" })
+                                        @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control", @maxlength ="50" })
                                     </div>
                                 </div>
                             </div>
@@ -59,6 +59,39 @@
                                     <div class="form-group">
                                         <label>Aplicacion</label>
                                         @Html.DropDownListFor(x => x.Aplicacion.Aplicacion_ID, (aplicaciones), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 pr-1">
+                                    <div class="form-group">
+                                        <label>Version de la aplicación</label>
+                                        @Html.TextBoxFor(x => x.Version, new { @class = "form-control", @maxlength ="10" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 pr-1">
+                                    <div class="form-group">
+                                        <label>Es Web</label>
+                                        @Html.CheckBoxFor(x => x.EsWeb, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 pr-1">
+                                    <div class="form-group">
+                                        <label>URL Aplicacion</label>
+                                        @Html.TextBoxFor(x => x.Version, new { @class = "form-control", @maxlength = "255" })
+                                    </div>
+                                </div>
+                            </div>
+                       
+                            <div class="row">
+                                <div class="col-md-5 pr-1">
+                                    <div class="form-group">
+                                        <label>Ruta del APK</label>
+                                        @Html.TextBoxFor(x => x.RutaAPK, new { @class = "form-control", @maxlength = "255" })
                                     </div>
                                 </div>
                             </div>
