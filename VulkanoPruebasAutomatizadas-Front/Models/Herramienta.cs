@@ -12,7 +12,8 @@ namespace VulkanoPruebasAutomatizadas_Front.Models
         public int Herramienta_ID { get; set; }
 
         [Required]
-        [Display(Name = "Nombre Herramienta")] 
+        [Display(Name = "Nombre Herramienta")]
+        [StringLength(30, MinimumLength = 5)]
         public string Nombre { get; set; }
 
         [Required]

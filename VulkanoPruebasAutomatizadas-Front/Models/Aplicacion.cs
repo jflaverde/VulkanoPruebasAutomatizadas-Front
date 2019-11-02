@@ -11,20 +11,24 @@ namespace VulkanoPruebasAutomatizadas_Front.Models
         public int Aplicacion_ID { get; set; }
 
         [Required]
+        [StringLength(30, MinimumLength = 5)]
         [Display(Name = "Nombre Aplicación")]
         public string Nombre { get; set; }
 
         [Required]
+        [StringLength(12, MinimumLength = 5)]
         [Display(Name = "Versión de la aplicación")]
         public string Version { get; set; }
 
         [Display(Name = "Ruta de la aplicación")]
+        [StringLength(255, MinimumLength = 5)]
         public string Ruta_Aplicacion { get; set; }
         
         [Display(Name = "Es aplicación Web?")]
         public bool Es_Web { get; set; }
 
         [Display(Name = "Descripción")]
+        [StringLength(50, MinimumLength = 5)]
         public string Descripcion { get; set; }
     }
 }

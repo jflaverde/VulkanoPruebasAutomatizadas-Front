@@ -142,10 +142,11 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
                 .Select(x => new SelectListItem
                 {
                     Value = x.Aplicacion_ID.ToString(),
-                    Text = x.Nombre
+                    Text = string.Concat(x.Nombre," ",x.Version)
                 }
             );
 
+                ViewData["objAplicaciones"] = aplicaciones;
                 return new SelectList(selectAplicaciones, "Value", "Text");
             }
 
