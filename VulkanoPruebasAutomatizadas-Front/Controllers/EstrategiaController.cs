@@ -25,12 +25,24 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
             this.configuration = configuration;
         }
 
+
+        public ActionResult Error()
+        {
+
+
+
+            return View();
+        }
+
+
         public IActionResult Crear(Estrategia estrategia) {
 
             ViewData["aplicaciones"] = ApplicationList();
+            if (estrategia == null)
+                estrategia = new Estrategia();
 
-
-            if (!string.IsNullOrEmpty(estrategia.Nombre)) {
+            if (!string.IsNullOrEmpty(estrategia.Nombre))
+            {
                 estrategia.Estado = new Estado()
                 {
                     ID = 1
@@ -48,7 +60,7 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
                 }
             }
 
-            return View();
+            return View(estrategia);
         }
                 
         public IActionResult AgregarPrueba(string NombrePrueba, string Parametros, string Descripcion, int TipoPrueba)
