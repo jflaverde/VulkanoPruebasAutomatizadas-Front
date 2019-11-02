@@ -1,0 +1,100 @@
+﻿@model Aplicacion
+
+@{
+    ViewData["Title"] = "Editar Aplicación";
+    ViewBag.Title = "Editar";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+    ReturnMessage response = new ReturnMessage();
+    var aplicaciones = (List<Aplicacion>)ViewData["aplicaciones"];
+    /*if (ViewData["responseMessage"] != null)
+    {
+        response = (ReturnMessage)ViewData["responseMessage"];
+    }*/
+}
+
+<h2 class="card-title">Agregar Nueva Aplicación</h2>
+<form method="put" action="@Url.Action("Actualizar","Aplicacion")">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Aplicación</h4>
+                        </div>
+                        <div class="card-body">
+                            @foreach (var aplicacion in aplicaciones)
+                            {
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Nombre de la Aplicación</label>
+                                            @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control", @Value = aplicacion.Nombre })
+                                            @Html.HiddenFor(x => x.Aplicacion_ID, new { @Vallue = aplicacion.Aplicacion_ID })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Versión</label>
+                                            @Html.TextBoxFor(x => x.Version, new { @class = "form-control", @Value = aplicacion.Version })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Ruta de la aplicación</label>
+                                            @Html.TextBoxFor(x => x.Ruta_Aplicacion, new { @class = "form-control", @Value = aplicacion.Ruta_Aplicacion })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Aplicación Web?</label>
+                                            @Html.CheckBoxFor(x => x.Es_Web, new { @Value = aplicacion.Es_Web })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            @Html.TextAreaFor(x => x.Descripcion, new { @class = "form-control", @Value = aplicacion.Descripcion })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row form-group">
+            <input type="submit" class="btn btn-info btn-fill pull-right" value="Crear Aplicación">
+        </div>
+    </div>
+
+    @if (response != null)
+    {
+        <script>
+            function Response() {
+                alert("@response.Mensaje");
+    }
+        </script>
+    }
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
