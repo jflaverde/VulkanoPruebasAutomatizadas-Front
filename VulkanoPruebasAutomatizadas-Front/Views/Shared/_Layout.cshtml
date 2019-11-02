@@ -77,12 +77,11 @@
 
                                 <ul id="ApplicationAccordion" class="collapse">
                                     <li>
-                                        <a href="@(Url.Action("Crear","Application"))">
-
+                                        <a href="@(Url.Action("Crear","Aplicacion"))">
                                             <p>Agregar Aplicacion</p>
                                         </a>
                                     </li>
-                                    <li>Listar Aplicaciones</li>
+                                    <li><a href="@(Url.Action("Lista","Aplicacion"))">Listar Aplicaciones</li>
                                 </ul>
                             </li>
                             <li class="panel">
@@ -98,7 +97,8 @@
                                             <p>Agregar Herramienta</p>
                                         </a>
                                     </li>
-                                    <li>Listar Herramientas</li>
+                                    <a href="@(Url.Action("Lista","Herramienta"))">
+                                        <li>Listar Herramientas</li>
                                 </ul>
                             </li>
                         </ul>
