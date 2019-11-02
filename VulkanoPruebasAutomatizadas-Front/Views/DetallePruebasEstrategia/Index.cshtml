@@ -1,0 +1,62 @@
+﻿@model List<TipoPrueba>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    
+
+<h2>Pruebas Estrategia</h2>
+
+<ul class="nav nav-tabs">
+    @{
+        int contador = 0;
+        foreach (var tipoPrueba in Model)
+        {
+        <li class="nav-item @(contador==0 ? "active":"")" style="{ padding:0 10px; }"><a data-toggle="tab" href="#@tipoPrueba.ID">@tipoPrueba.Nombre</a>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+
+            contador++;
+        }
+    }
+    
+</ul>
+
+<div class="tab-content">
+    @{
+        contador = 0;
+        foreach (var tipoPrueba in Model)
+        {
+        <div id="@tipoPrueba.ID" class="tab-pane fade @(contador==0 ? "in active":"")">
+            <h3>Historial @tipoPrueba.Nombre</h3>
+            <p>Esto es el historial</p>
+            <div class="text-right">
+                <a href="javascript:void(0);" class="btn btn-default" onclick="location.reload();">Refrescar</a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha Ejecución</th>
+                        <th>Fecha Finalizacion</th>
+                        <th>Estado</th>
+                        <th>Ruta Resultados</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (HistorialEjecucionPrueba h in tipoPrueba.HistorialEjecuciones)
+                {
+                    <tr>
+                        <td>@(h.ID)</td>
+                        <td>@(h.FechaEjecucion)</td>
+                        <td>@(h.FechaFinalizacion)</td>
+                        <td>@(h.Estado)</td>
+                        <td>@(h.RutaResultados)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+            contador++;
+        }
+    }
+</div>

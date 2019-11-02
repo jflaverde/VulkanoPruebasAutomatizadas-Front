@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,12 +9,10 @@ namespace VulkanoPruebasAutomatizadas_Front.Models
 {
     public class Estrategia
     {
-
-    
         public int Estrategia_ID { get; set; }
 
-
         [Required]
+        [StringLength(20, MinimumLength =5)]
         [Display (Name ="Nombre Estrategia")]
         public string Nombre { get; set; }
 
@@ -27,21 +26,26 @@ namespace VulkanoPruebasAutomatizadas_Front.Models
         public List<TipoPrueba> TipoPruebas { get; set; }
 
         [Required]
+        [StringLength(12, MinimumLength = 3)]
         [Display(Name = "Version")]
         public string Version { get; set; }
-        [Required]
+    
         [Display(Name = "Es web")]
         public bool EsWeb { get; set; }
-        [Required]
+     
+        [StringLength(255, MinimumLength = 5)]
         [Display(Name = "URL Aplicacion")]
         public string URLAplicacion { get; set; }
-        [Required]
+      
+
+        [StringLength(255, MinimumLength = 5)]
         [Display(Name = "Ruta APK")]
         public string RutaAPK { get; set; }
 
         public Estrategia()
         {
             TipoPruebas = new List<TipoPrueba>();
+            Estado = new Estado { ID = 1 };
         }
     }
 }

@@ -85,6 +85,7 @@
     function uploadFiles(inputId) {
         var input = document.getElementById(inputId);
         var files = input.files;
+        
         var formData = new FormData();
 
         for (var i = 0; i != files.length; i++) {
@@ -101,6 +102,7 @@
                 success: function (data) {
                     console.log("¡Archivos cargados!");
                     $('#rutaScript').val(data.filePaths[0])
+                    console.log(data);
                 }
             });
     }

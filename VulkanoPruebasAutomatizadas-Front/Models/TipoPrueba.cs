@@ -25,10 +25,12 @@ namespace VulkanoPruebasAutomatizadas_Front.Models
         [Display(Name = "Tipo de prueba")]
         public MQTipoPrueba MQTipoPrueba { get; set; }
 
+        public List<HistorialEjecucionPrueba> HistorialEjecuciones { get; set; }
         public TipoPrueba()
         {
             MQTipoPrueba = new MQTipoPrueba();
             Script = new Script();
+            HistorialEjecuciones = new List<HistorialEjecucionPrueba>();
         }
     }
 }
