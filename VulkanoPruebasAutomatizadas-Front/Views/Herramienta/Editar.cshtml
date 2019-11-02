@@ -1,8 +1,8 @@
 ﻿@model Herramienta
 
 @{
-    ViewData["Title"] = "Crear Herramienta";
-    ViewBag.Title = "Crear";
+    ViewData["Title"] = "Editar Herramienta";
+    ViewBag.Title = "Editar";
 }
 
 @{
@@ -14,39 +14,22 @@
     }
 }
 
-<h2 class="card-title">Agregar Nueva Herramienta</h2>
-@if (response != null && !string.IsNullOrEmpty(response.Mensaje))
-{
-    if (response.TipoMensaje == TipoMensaje.Correcto)
-    {
-        <div class="alert alert-success">@response.Mensaje</div>
-    }
-    else
-    {
-        <div class="alert alert-danger">@response.Mensaje</div>
-    }
+<h2 class="card-title">Editar Aplicación</h2>
 
-    <script type="text/javascript">
-        $(document).ready(function () { LimpiarCamposHerramienta(); });
-        function LimpiarCamposHerramienta() {
-            $("#Nombre").val(''),
-        }
-    </script>
-}
-<form method="post" action="@Url.Action("Crear","Herramienta")">
+<form method="post" action="@Url.Action("Editar","Herramienta")">
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Herramienta</h4>
+                            <h4 class="card-title">Aplicación</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Nombre de la Herramienta</label>
+                                        <label>Nombre de la Aplicación</label>
                                         @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control" })
                                     </div>
                                 </div>
@@ -90,3 +73,8 @@
         </script>
     }
 </form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
