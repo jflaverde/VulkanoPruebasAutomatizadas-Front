@@ -14,23 +14,22 @@ using Microsoft.AspNetCore.Http;
 
 namespace VulkanoPruebasAutomatizadas_Front.Controllers
 {
-    public class HerramientaController : Controller
+    public class AplicacionController : Controller
     {
         IConfiguration configuration;
 
-        public HerramientaController(IConfiguration configuration)
+        public AplicacionController(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
-        public IActionResult Crear(Herramienta herramienta)
-        {
+        public IActionResult Crear(Aplicacion aplicacion){
 
-            if (!string.IsNullOrEmpty(herramienta.Nombre))
+            if (!string.IsNullOrEmpty(aplicacion.Nombre))
             {
                 HttpClient cliente = new HttpClient();
                 cliente.BaseAddress = new Uri(configuration.GetValue<string>("Config:APIURL"));
-                var request = cliente.PostAsync("Herramienta", herramienta, new JsonMediaTypeFormatter()).Result;
+                var request = cliente.PostAsync("Aplicacion", aplicacion, new JsonMediaTypeFormatter()).Result;
 
                 if (request.IsSuccessStatusCode)
                 {
@@ -42,14 +41,13 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
             return View();
         }
 
-        public IActionResult Editar(Herramienta herramienta)
+        public IActionResult Actualizar(Aplicacion aplicacion)
         {
-
-            if (!string.IsNullOrEmpty(herramienta.Nombre))
+            if (!string.IsNullOrEmpty(aplicacion.Nombre))
             {
                 HttpClient cliente = new HttpClient();
                 cliente.BaseAddress = new Uri(configuration.GetValue<string>("Config:APIURL"));
-                var request = cliente.PutAsync("Herramienta", herramienta, new JsonMediaTypeFormatter()).Result;
+                var request = cliente.PutAsync("Aplicacion/Actualizar", aplicacion, new JsonMediaTypeFormatter()).Result;
 
                 if (request.IsSuccessStatusCode)
                 {
@@ -61,12 +59,11 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
             return View();
         }
 
-        public IActionResult Eliminar(Herramienta herramienta)
+        public IActionResult Eliminar(Aplicacion aplicacion)
         {
-
             HttpClient cliente = new HttpClient();
             cliente.BaseAddress = new Uri(configuration.GetValue<string>("Config:APIURL"));
-            var request = cliente.DeleteAsync("Herramienta/Eliminar?herramienta_id=" + herramienta.Herramienta_ID).Result;
+            var request = cliente.DeleteAsync("Aplicacion/Eliminar?aplicacion_id="+aplicacion.Aplicacion_ID).Result;
 
             if (request.IsSuccessStatusCode)
             {
@@ -84,14 +81,31 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
 
             client.BaseAddress = new Uri(configuration.GetValue<string>("Config:APIURL"));
 
-            var request = client.GetAsync("herramienta").Result;
-            List<Herramienta> herramientas = new List<Herramienta>();
+            var request = client.GetAsync("aplicacion").Result;
+            List<Aplicacion> aplicaciones = new List<Aplicacion>();
             if (request.IsSuccessStatusCode)
             {
                 var resultString = request.Content.ReadAsStringAsync().Result;
-                herramientas = JsonConvert.DeserializeObject<List<Herramienta>>(resultString);
+                aplicaciones = JsonConvert.DeserializeObject<List<Aplicacion>>(resultString);
             }
-            ViewData["herramientas"] = herramientas;
+            ViewData["aplicaciones"] = aplicaciones;
+            return View();
+        }
+
+        public IActionResult Editar(int aplicacion_id)
+        {
+            HttpClient client = new HttpClient();
+
+            client.BaseAddress = new Uri(configuration.GetValue<string>("Config:APIURL"));
+
+            var request = client.GetAsync("Aplicacion/"+aplicacion_id).Result;
+            List<Aplicacion> aplicaciones = new List<Aplicacion>();
+            if (request.IsSuccessStatusCode)
+            {
+                var resultString = request.Content.ReadAsStringAsync().Result;
+                aplicaciones = JsonConvert.DeserializeObject<List<Aplicacion>>(resultString);
+            }
+            ViewData["aplicaciones"] = aplicaciones;
             return View();
         }
     }
