@@ -8,6 +8,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
     ReturnMessage response = new ReturnMessage();
+    var mqTipoPruebas = (IEnumerable<SelectListItem>)ViewData["mqTipoPruebas"];
     if (ViewData["responseMessage"] != null)
     {
         response = (ReturnMessage)ViewData["responseMessage"];
@@ -54,15 +55,15 @@
                             <div class="row">
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Nombre de la Herramienta</label>
-                                        @Html.TextBoxFor(x => x.Tipo_Prueba, new { @class = "form-control" })
+                                        <label>Tipo de Prueba</label>
+                                        @Html.DropDownListFor(x => x.Tipo_Prueba, (mqTipoPruebas), new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Nombre de la Herramienta</label>
+                                        <label>Web</label>
                                         @Html.CheckBoxFor(x => x.Es_Web)
                                     </div>
                                 </div>

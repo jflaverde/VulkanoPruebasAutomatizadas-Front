@@ -86,7 +86,8 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
             if (request.IsSuccessStatusCode)
             {
                 var resultString = request.Content.ReadAsStringAsync().Result;
-                aplicaciones = JsonConvert.DeserializeObject<List<Aplicacion>>(resultString);
+                var mensaje = JsonConvert.DeserializeObject<ReturnMessage>(resultString);
+                aplicaciones = JsonConvert.DeserializeObject<List<Aplicacion>>(mensaje.obj.ToString());
             }
             ViewData["aplicaciones"] = aplicaciones;
             return View();

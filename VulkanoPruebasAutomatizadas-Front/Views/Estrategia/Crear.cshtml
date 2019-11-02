@@ -10,6 +10,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
     var aplicaciones = (IEnumerable<SelectListItem>)ViewData["aplicaciones"];
     ReturnMessage response = new ReturnMessage();
+    List<Aplicacion> objAplicaciones = (List<Aplicacion>)ViewData["objAplicaciones"];
     if (ViewData["responseMessage"] != null)
     {
         response = (ReturnMessage)ViewData["responseMessage"];
@@ -124,10 +125,7 @@
                     $("#RutaAPKRow").show();
                     $("#URLAplicacion").val("");
                 }
-                
-
             });
-
         });
 
     </script>

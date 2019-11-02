@@ -25,7 +25,7 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
 
         public IActionResult Crear(Herramienta herramienta)
         {
-
+            ViewData["MQTipoPruebas"] = MQTipoPruebasList();
             if (!string.IsNullOrEmpty(herramienta.Nombre))
             {
                 HttpClient cliente = new HttpClient();
@@ -39,7 +39,7 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
                     ViewData["responseMessage"] = response;
                 }
             }
-            return View();
+            return View(herramienta);
         }
 
         public IActionResult Editar(Herramienta herramienta)
@@ -93,6 +93,32 @@ namespace VulkanoPruebasAutomatizadas_Front.Controllers
             }
             ViewData["herramientas"] = herramientas;
             return View();
+        }
+
+        public IEnumerable<SelectListItem> MQTipoPruebasList()
+        {
+            HttpClient client = new HttpClient();
+
+            client.BaseAddress = new Uri(configuration.GetValue<string>("Config:APIURL"));
+
+            var request = client.GetAsync("MQTipoPrueba").Result;
+            List<MQTipoPrueba> mqTipoPrueba = new List<MQTipoPrueba>();
+            if (request.IsSuccessStatusCode)
+            {
+                var resultString = request.Content.ReadAsStringAsync().Result;
+                mqTipoPrueba = JsonConvert.DeserializeObject<List<MQTipoPrueba>>(resultString);
+                var selectMqTipoPruebas = mqTipoPrueba
+                .Select(x => new SelectListItem
+                {
+                    Value = x.ID.ToString(),
+                    Text = x.Nombre
+                }
+            );
+
+                return new SelectList(selectMqTipoPruebas, "Value", "Text");
+            }
+
+            return null;
         }
     }
 }
