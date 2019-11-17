@@ -68,7 +68,7 @@
                                 <div class="col-md-5 pr-1">
                                     <div class="form-group">
                                         <label>Version de la aplicación</label>
-                                        @Html.TextBoxFor(x => x.Version, new { @class = "form-control", @maxlength = "10" })
+                                        a
                                     </div>
                                 </div>
                             </div>
@@ -76,26 +76,11 @@
                                 <div class="col-md-5 pr-1">
                                     <div class="form-group">
                                         <label>Es Web</label>
-                                        @Html.CheckBoxFor(x => x.EsWeb, new { @class = "form-control" })
+                                       
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="URLAplicacionRow" style="@(Model.EsWeb ? "display:block;":"display:none;")">
-                                <div class="col-md-5 pr-1">
-                                    <div class="form-group">
-                                        <label>URL Aplicacion</label>
-                                        @Html.TextBoxFor(x => x.URLAplicacion, new { @class = "form-control", @maxlength = "255" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" id="RutaAPKRow"  style="@(!Model.EsWeb ? "display:block;":"display:none;")">
-                                <div class="col-md-5 pr-1">
-                                    <div class="form-group">
-                                        <label>Ruta del APK</label>
-                                        @Html.TextBoxFor(x => x.RutaAPK, new { @class = "form-control", @maxlength = "255" })
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div>
 
                             </div>

@@ -25,23 +25,6 @@ namespace VulkanoPruebasAutomatizadas_Front.Models
         [Display(Name = "Tipos de Prueba")]
         public List<TipoPrueba> TipoPruebas { get; set; }
 
-        [Required]
-        [StringLength(12, MinimumLength = 3)]
-        [Display(Name = "Version")]
-        public string Version { get; set; }
-    
-        [Display(Name = "Es web")]
-        public bool EsWeb { get; set; }
-     
-        [StringLength(255, MinimumLength = 5)]
-        [Display(Name = "URL Aplicacion")]
-        public string URLAplicacion { get; set; }
-      
-
-        [StringLength(255, MinimumLength = 5)]
-        [Display(Name = "Ruta APK")]
-        public string RutaAPK { get; set; }
-
         public Estrategia()
         {
             TipoPruebas = new List<TipoPrueba>();
