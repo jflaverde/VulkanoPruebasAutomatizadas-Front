@@ -1,0 +1,53 @@
+﻿@using NetVulkanoPruebasAutomatizadas_Front.Models
+@{
+    ViewData["Title"] = "Lista";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+    var herramientas = (List<Herramienta>)ViewData["herramientas"];
+}
+
+<script>
+    $(document).ready(function () {
+        //Todos los elementos que existen en el documento con la etiqueta data-toggle="tooltip" usarán tooltip de bootstrap
+        $('[data-toggle="tooltip"]').tooltip();
+    });</script>
+
+<h1>LISTAR HERRAMIENTAS</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card strpied-tabled-with-hover">
+            <div class="card-header ">
+                <h4 class="card-title">Listado de Herramientas creadas</h4>
+                <p class="card-category">Seleccione una acción a realizar para la herramienta desde la columna "Opciones"</p>
+            </div>
+            <div class="card-body table-full-width table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <th>Nombre</th>
+                    <th>Tipo de Prueba</th>
+                    <th>Es Web?</th>
+                    <th>Opciones</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var herramienta in herramientas)
+                        {
+                            <tr>
+                                <td>@herramienta.Nombre</td>
+                                <td>@herramienta.Tipo_Prueba</td>
+                                <td>@herramienta.Es_Web</td>
+                                <td>
+                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Editar"><a href=@(Url.Action("Editar","Herramienta", new { herramienta_id = herramienta.Herramienta_ID }))><i class="nc-icon nc-settings-gear-64"></i></span>
+                                    &nbsp;&nbsp;
+                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Eliminar"><a href="@(Url.Action("Eliminar","Herramienta", new { herramienta_id = herramienta.Herramienta_ID }))"><i class="nc-icon nc-simple-remove"></i></span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

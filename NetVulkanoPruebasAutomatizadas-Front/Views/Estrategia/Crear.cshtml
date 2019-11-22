@@ -1,4 +1,5 @@
-﻿@model VulkanoPruebasAutomatizadas_Front.Models.Estrategia
+﻿@using NetVulkanoPruebasAutomatizadas_Front.Models
+@model NetVulkanoPruebasAutomatizadas_Front.Models.Estrategia
 
 @{
     ViewData["Title"] = "Crear Estrategia";
@@ -7,6 +8,7 @@
 }
 
 @{
+
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
     var aplicaciones = (IEnumerable<SelectListItem>)ViewData["aplicaciones"];
     ReturnMessage response = new ReturnMessage();
@@ -75,11 +77,11 @@
                                 <div class="col-md-5 pr-1">
                                     <div class="form-group">
                                         <label>Es Web</label>
-                                       
+
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <div>
 
                             </div>
@@ -88,6 +90,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div>
+            @{
+                //var pruebaEstrategia = Html.Partial("~/Views/PruebaEstrategia/Create.cshtml");
+                //pruebaEstrategia = new MvcHtmlString(pruebaEstrategia.ToString() + "<h2>vista parcial</h2>");
+                //@pruebaEstrategia
+            }
+
+
         </div>
     </div>
 

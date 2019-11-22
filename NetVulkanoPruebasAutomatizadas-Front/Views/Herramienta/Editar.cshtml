@@ -1,0 +1,81 @@
+﻿@using NetVulkanoPruebasAutomatizadas_Front.Models
+@model Herramienta
+
+@{
+    ViewData["Title"] = "Editar Herramienta";
+    ViewBag.Title = "Editar";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+    ReturnMessage response = new ReturnMessage();
+    if (ViewData["responseMessage"] != null)
+    {
+        response = (ReturnMessage)ViewData["responseMessage"];
+    }
+}
+
+<h2 class="card-title">Editar Aplicación</h2>
+
+<form method="post" action="@Url.Action("Editar","Herramienta")">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Aplicación</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Nombre de la Aplicación</label>
+                                        @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Nombre de la Herramienta</label>
+                                        @Html.TextBoxFor(x => x.Tipo_Prueba, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Nombre de la Herramienta</label>
+                                        @Html.CheckBoxFor(x => x.Es_Web)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row form-group">
+            <input type="submit" class="btn btn-info btn-fill pull-right" value="Crear Herramienta">
+        </div>
+    </div>
+
+    @if (response != null)
+    {
+        <script>
+            function Response() {
+                alert("@response.Mensaje");
+    }
+        </script>
+    }
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

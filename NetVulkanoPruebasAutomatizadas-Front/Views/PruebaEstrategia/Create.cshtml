@@ -1,0 +1,196 @@
+﻿@using NetVulkanoPruebasAutomatizadas_Front.Models
+@model NetVulkanoPruebasAutomatizadas_Front.Models.TipoPrueba
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+
+    var estrategia_id = (int)ViewData["estrategia_id"];
+    bool es_web = (bool)ViewData["es_web"];
+    var mqTipoPruebas = (IEnumerable<SelectListItem>)ViewData["mqTipoPruebas"];
+    var listHerramientas = (IEnumerable<SelectListItem>)ViewData["Herramientas"];
+    ReturnMessage response = new ReturnMessage();
+    if (ViewData["responseMessage"] != null)
+    {
+        response = (ReturnMessage)ViewData["responseMessage"];
+    }
+
+}
+
+@if (response != null && !string.IsNullOrEmpty(response.Mensaje))
+{
+    if (response.TipoMensaje == TipoMensaje.Correcto)
+    {
+        <div class="alert alert-success">@response.Mensaje</div>
+    }
+    else
+    {
+        <div class="alert alert-danger">@response.Mensaje</div>
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () { LimpiarCamposTipoPrueba(); });
+        function LimpiarCamposTipoPrueba() {
+            $("#Nombre").val(''),
+                $("#Parametros").val(''),
+                $("#Descripcion").val(''),
+                $("#MQTipoPrueba_ID").val('1')
+        }
+    </script>
+    
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+<div class="form-horizontal">
+    <h4>Prueba para la estrategia</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <input type="hidden" name="rutaScript" id="rutaScript" />
+    <div class="form-group">
+        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Herramienta, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(x => x.Herramienta.Herramienta_ID, (listHerramientas), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Herramienta.Herramienta_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Parametros, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Parametros, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Parametros, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @{
+        if (!es_web)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.TiempoEjecucion, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TiempoEjecucion, new { htmlAttributes = new { @type = "text", @id = "duration", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TiempoEjecucion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Semilla, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Semilla, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Semilla, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+    }
+    <div class="form-group">
+        @Html.LabelFor(model => model.CantidadEjecuciones, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CantidadEjecuciones, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CantidadEjecuciones, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ApiController, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ApiController, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ApiController, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ApiKey, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ApiKey, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ApiKey, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-5 pr-1">
+            <div class="form-group">
+                <label>Tipo de Prueba</label>
+                @Html.DropDownListFor(x => x.MQTipoPrueba.ID, (mqTipoPruebas), new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="file-field">
+        <h2>Basic File Upload</h2>
+        <input id="files" name="files" type="file" size="1" onchange="uploadFiles('files');" required />
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+
+<script>
+    // Subir Archivos
+    function uploadFiles(inputId) {
+        var input = document.getElementById(inputId);
+        var files = input.files;
+
+        var formData = new FormData();
+
+        for (var i = 0; i != files.length; i++) {
+            formData.append("files", files[i]);
+        }
+
+        var SessionKey = "Attach_@(estrategia_id)";
+        formData.append("SessionKey", SessionKey);
+
+        $.ajax(
+            {
+                url: "/FileUpload/upload",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    console.log("¡Archivos cargados!");
+                    $('#rutaScript').val(data.files[0].VirtualPath);
+                    console.log(data.files[0].VirtualPath);
+                }
+            });
+    }
+
+</script>
+
+<script>
+    $(function () {
+        $('#duration').durationPicker();
+        $('#duration2').durationPicker({ showSeconds: true, checkRanges: true, totalMax: 259200000 /* 3 days */ });
+    });
+</script>
+
+<div>
+    <a href="@(Url.Action("TicketList","Estrategia"))">Back to List</a>
+</div>

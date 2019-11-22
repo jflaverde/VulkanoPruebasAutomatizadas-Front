@@ -1,0 +1,64 @@
+﻿@using NetVulkanoPruebasAutomatizadas_Front.Models
+@{
+    ViewData["Title"] = "Lista";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+    var aplicaciones = (List<Aplicacion>)ViewData["aplicaciones"];
+}
+
+<script>
+    $(document).ready(function () {
+        //Todos los elementos que existen en el documento con la etiqueta data-toggle="tooltip" usarán tooltip de bootstrap
+        $('[data-toggle="tooltip"]').tooltip();
+    });</script>
+
+<h1>LISTAR APLICACIONES</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card strpied-tabled-with-hover">
+            <div class="card-header ">
+                <h4 class="card-title">Listado de Aplicaciones creadas</h4>
+                <p class="card-category">Seleccione una acción a realizar para la aplicación desde la columna "Opciones"</p>
+            </div>
+            <div class="card-body table-full-width table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <th>Nombre</th>
+                    <th>Version</th>
+                    <th>Ubicación</th>
+                    <th>Es Web</th>
+                    <th>Descripción</th>
+                    <th>Opciones</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var aplicacion in aplicaciones)
+                        {
+                            <tr>
+                                <td>@aplicacion.Nombre</td>
+                                <td>@aplicacion.Version</td>
+                                <td>@aplicacion.Ruta_Aplicacion</td>
+                                @if (@aplicacion.Es_Web == true)
+                                {
+                                    <td>Sí</td>
+                                }
+                                else
+                                {
+                                    <td>No</td>
+                                }
+                                <td>@aplicacion.Descripcion</td>
+                                <td>
+                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Editar"><a href=@(Url.Action("Actualizar","Aplicacion", new { aplicacion.Aplicacion_ID }))><i class="nc-icon nc-settings-gear-64"></i></span>
+                                    &nbsp;&nbsp;
+                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Eliminar"><a href=@(Url.Action("Eliminar","Aplicacion", new { aplicacion_id = aplicacion.Aplicacion_ID }))><i class="nc-icon nc-simple-remove"></i></span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

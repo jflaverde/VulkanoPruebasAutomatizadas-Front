@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "5a07ad8d-355b-46ee-b5ad-67afdee3caff",
+		"name": "Listar diseños",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy Copy Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy Copy Copy Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy Copy Copy Copy Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy Copy Copy Copy Copy Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy Copy Copy Copy Copy Copy Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy Copy Copy Copy Copy Copy Copy Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Copy Copy Copy Copy Copy Copy Copy Copy Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://balanceadord-2137523094.us-east-1.elb.amazonaws.com:8000/api/disenos/5/Disponible",
+					"protocol": "http",
+					"host": [
+						"balanceadord-2137523094",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"disenos",
+						"5",
+						"Disponible"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

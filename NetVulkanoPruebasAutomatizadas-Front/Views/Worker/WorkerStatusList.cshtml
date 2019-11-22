@@ -1,0 +1,42 @@
+﻿@model IEnumerable<NetVulkanoPruebasAutomatizadas_Front.Models.WorkerStatus>
+
+@{
+    ViewBag.Title = "WorkerStatusList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de workers</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoPrueba)
+        </th>
+        <th>
+            Estado
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.WorkerID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TipoPrueba)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Estado.Nombre)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+    </td>
+</tr>
+}
+
+</table>

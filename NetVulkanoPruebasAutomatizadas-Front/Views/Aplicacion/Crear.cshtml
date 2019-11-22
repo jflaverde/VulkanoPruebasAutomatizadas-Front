@@ -1,22 +1,21 @@
-﻿@model VulkanoPruebasAutomatizadas_Front.Models.Estrategia
+﻿@using NetVulkanoPruebasAutomatizadas_Front.Models
+@model Aplicacion
 
 @{
-    ViewData["Title"] = "Crear Estrategia";
+    ViewData["Title"] = "Crear Aplicación";
     ViewBag.Title = "Crear";
-
 }
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
-    var aplicaciones = (IEnumerable<SelectListItem>)ViewData["aplicaciones"];
     ReturnMessage response = new ReturnMessage();
-    List<Aplicacion> objAplicaciones = (List<Aplicacion>)ViewData["objAplicaciones"];
     if (ViewData["responseMessage"] != null)
     {
         response = (ReturnMessage)ViewData["responseMessage"];
     }
 }
-<h2 class="card-title">Agregar Nueva Estrategia</h2>
+
+<h2 class="card-title">Agregar Nueva Aplicación</h2>
 @if (response != null && !string.IsNullOrEmpty(response.Mensaje))
 {
     if (response.TipoMensaje == TipoMensaje.Correcto)
@@ -29,59 +28,65 @@
     }
 
     <script type="text/javascript">
-        $(document).ready(function () { LimpiarCamposTipoPrueba(); });
-        function LimpiarCamposTipoPrueba() {
+        $(document).ready(function () { LimpiarCamposAplicacion(); });
+        function LimpiarCamposAplicacion() {
             $("#Nombre").val(''),
-                $("#MQTipoPrueba_ID").val('1')
+                $("#Version").val(''),
+                $("#Ruta_Aplicacion").val(''),
+                $("#Es_Web").val('0'),
+                $("#Descripcion").val('')
         }
     </script>
 }
-<form method="post" action="@Url.Action("Crear","Estrategia")">
+<form method="post" action="@Url.Action("Crear","Aplicacion")">
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">1. Defina la estrategia</h4>
+                            <h4 class="card-title">Aplicación</h4>
                         </div>
                         <div class="card-body">
-
                             <div class="row">
-                                <div class="col-md-5 pr-1">
+                                <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Nombre de la Estrategia</label>
-                                        @Html.HiddenFor(x => x.TipoPruebas);
-                                        @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control", @maxlength = "50" })
+                                        <label>Nombre de la Aplicación</label>
+                                        @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Aplicacion</label>
-                                        @Html.DropDownListFor(x => x.Aplicacion.Aplicacion_ID, (aplicaciones), new { @class = "form-control" })
+                                        <label>Versión</label>
+                                        @Html.TextBoxFor(x => x.Version, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-5 pr-1">
+                                <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Version de la aplicación</label>
+                                        <label>Ruta de la aplicación</label>
+                                        @Html.TextBoxFor(x => x.Ruta_Aplicacion, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-5 pr-1">
+                                <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Es Web</label>
-                                       
+                                        <label>Aplicación Web?</label>
+                                        @Html.CheckBoxFor(x => x.Es_Web)
                                     </div>
                                 </div>
                             </div>
-                           
-                            <div>
-
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        @Html.TextAreaFor(x => x.Descripcion, new { @class = "form-control" })
+                                    </div>
+                                </div>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -93,26 +98,9 @@
 
     <div class="container-fluid">
         <div class="row form-group">
-            <input type="submit" class="btn btn-info btn-fill pull-right" value="Crear Estrategia">
+            <input type="submit" class="btn btn-info btn-fill pull-right" value="Crear Aplicación">
         </div>
     </div>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#EsWeb").on('change', function () {
-                if ($(this).is(':checked')) {
-                    $("#URLAplicacionRow").show();
-                    $("#RutaAPKRow").hide();
-                    $("#RutaAPK").val("");
-                }
-                else {
-                    $("#URLAplicacionRow").hide();
-                    $("#RutaAPKRow").show();
-                    $("#URLAplicacion").val("");
-                }
-            });
-        });
-
-    </script>
 
     @if (response != null)
     {
@@ -123,4 +111,3 @@
         </script>
     }
 </form>
-
