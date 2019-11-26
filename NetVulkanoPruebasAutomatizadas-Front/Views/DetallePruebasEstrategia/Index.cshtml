@@ -3,17 +3,37 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ReturnMessage response = new ReturnMessage();
     var estrategia_id = (int)ViewData["estrategia_id"];
+    if (ViewData["responseMessage"] != null)
+    {
+        response = (ReturnMessage)ViewData["responseMessage"];
+    }
 }
-
-
-
 
 <h2>Pruebas Estrategia @estrategia_id</h2>
 
+@if (response != null && !string.IsNullOrEmpty(response.Mensaje))
+{
+    if (response.TipoMensaje == TipoMensaje.Correcto)
+    {
+        <div class="alert alert-success">@response.Mensaje</div>
+    }
+    else
+    {
+        <div class="alert alert-danger">@response.Mensaje</div>
+    }
+    <script type="text/javascript">
+        $(document).ready(function () { LimpiarCamposTipoPrueba(); });
+        function LimpiarCamposTipoPrueba() {
+            $("#Nombre").val(''),
+                $("#MQTipoPrueba_ID").val('1')
+        }
+    </script>
+}
 <div class="col-md-5 pr-1">
     <div class="form-group">
-        <input type="button" title="Enviar todas las pruebas" value="Enviar todas las pruebas" onclick="location.href='@Url.Action("EnviarPruebasCola", "DetallePruebasEstrategia", new { estrategia_id=estrategia_id })'" />
+        <input type="button" title="Enviar todas las pruebas" value="Enviar todas las pruebas" class="btn-default" onclick="location.href='@Url.Action("EnviarPruebasCola", "DetallePruebasEstrategia", new { estrategia_id=estrategia_id })'" />
     </div>
 </div>
 
@@ -35,45 +55,46 @@
         contador = 0;
         foreach (var tipoPrueba in Model)
         {
-        <div id="@tipoPrueba.ID" class="tab-pane fade @(contador==0 ? "in active":"")">
-            <h3>Historial @tipoPrueba.Nombre</h3>
-            
-            <div class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="card">
-                                <div class="card-header">
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-5 pr-1">
-                                            <div class="form-group">
-                                                <label>ID de la prueba</label>
-                                                @tipoPrueba.ID
+            <div id="@tipoPrueba.ID" class="tab-pane fade @(contador==0 ? "in active":"")">
+                <h3>Historial @tipoPrueba.Nombre</h3>
+
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-5 pr-1">
+                                                <div class="form-group">
+                                                    <label>ID de la prueba</label>
+                                                    @tipoPrueba.ID
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5 pr-1">
-                                            <div class="form-group">
-                                                <label>Nombre la prueba</label>
-                                                @tipoPrueba.Nombre
+                                        <div class="row">
+                                            <div class="col-md-5 pr-1">
+                                                <div class="form-group">
+                                                    <label>Nombre la prueba</label>
+                                                    @tipoPrueba.Nombre
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5 pr-1">
-                                            <div class="form-group">
-                                                <label>Tipo de Prueba</label>
-                                                @tipoPrueba.MQTipoPrueba.Nombre
+                                        <div class="row">
+                                            <div class="col-md-5 pr-1">
+                                                <div class="form-group">
+                                                    <label>Tipo de Prueba</label>
+                                                    @tipoPrueba.MQTipoPrueba.Nombre
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5 pr-1">
-                                            <div class="form-group">
-                                                <input type="button" title="Enviar a la Cola" value="Enviar a la Cola" onclick="location.href='@Url.Action("EnviarPruebaCola", "DetallePruebasEstrategia", new { ID = tipoPrueba.ID,id_mqTipoPrueba=tipoPrueba.MQTipoPrueba.ID,estrategia_id=estrategia_id })'" />
+                                        <div class="row">
+                                            <div class="col-md-5 pr-1">
+                                                <div class="form-group">
+                                                    <input type="button" title="Enviar a la Cola" value="Enviar a la Cola" onclick="location.href='@Url.Action("EnviarPruebaCola", "DetallePruebasEstrategia", new { ID = tipoPrueba.ID,id_mqTipoPrueba=tipoPrueba.MQTipoPrueba.ID,estrategia_id=estrategia_id })'" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -82,35 +103,51 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-right">
-                <a href="javascript:void(0);" class="btn btn-default" onclick="location.reload();">Refrescar</a>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Fecha Ejecución</th>
-                        <th>Fecha Finalizacion</th>
-                        <th>Estado</th>
-                        <th>Ruta Resultados</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (HistorialEjecucionPrueba h in tipoPrueba.HistorialEjecuciones)
-                    {
+                <div class="text-right">
+                    <a href="javascript:void(0);" class="btn btn-default" onclick="location.reload();">Refrescar</a>
+                </div>
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td>@(h.ID)</td>
-                            <td>@(h.FechaEjecucion)</td>
-                            <td>@(h.Estado == "FINALIZADO" ? h.FechaFinalizacion.ToString() : string.Empty)</td>
-                            <td>@(h.Estado)</td>
-                            <td>@(h.RutaResultados)</td>
+                            <th>ID</th>
+                            <th>Fecha Ejecución</th>
+                            <th>Fecha Finalizacion</th>
+                            <th>Estado</th>
+                            <th>Ruta Resultados</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach (HistorialEjecucionPrueba h in tipoPrueba.HistorialEjecuciones)
+                        {
+                            <tr>
+                                <td>@(h.ID)</td>
+                                <td>@(h.FechaEjecucion)</td>
+                                <td>@(h.Estado == "FINALIZADO" ? h.FechaFinalizacion.ToString() : string.Empty)</td>
+                                <td>@(h.Estado)</td>
+                                <td>@(h.RutaResultados)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
             contador++;
         }
     }
+
 </div>
+
+@if (response != null)
+{
+    <script>
+            function Response() {
+                alert("@response.Mensaje");
+    }
+    </script>
+}
+
+<script>
+    function EnviarEstrategiaCola(estrategia_id) {
+
+    }
+
+</script>

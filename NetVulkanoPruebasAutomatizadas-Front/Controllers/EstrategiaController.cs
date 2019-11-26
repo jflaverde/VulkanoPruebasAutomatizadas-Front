@@ -100,7 +100,6 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
 
             client.BaseAddress = new Uri(ConfigurationManager.AppSettings["APIURL"]);
 
-
             var request = client.GetAsync("estrategia").Result;
             List<Estrategia> estrategias = new List<Estrategia>();
             if (request.IsSuccessStatusCode)

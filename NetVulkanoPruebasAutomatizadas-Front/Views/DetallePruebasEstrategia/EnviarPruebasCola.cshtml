@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "EnviarPruebasCola";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (ViewData["responseMessage"] != null)
+    {
+        response = (ReturnMessage)ViewData["responseMessage"];
+    }
+}
+
+<h2>Mensajes enviados a la cola</h2>
+
+<div class="col-md-5 pr-1">
+    <div class="form-group">
+        <input type="button" title="Enviar todas las pruebas" value="Enviar todas las pruebas" class="btn-default" onclick="location.href='@Url.Action("EnviarPruebasCola", "DetallePruebasEstrategia", new { estrategia_id=estrategia_id })'" />
+    </div>
+</div>
+

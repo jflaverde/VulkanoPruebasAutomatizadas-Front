@@ -18,13 +18,22 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
 {
     public class PruebaEstrategiaController : Controller
     {
-        
-
+        /// <summary>
+        /// 
+        /// </summary>
         public PruebaEstrategiaController()
         {
             
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="prueba"></param>
+        /// <param name="estrategia_id"></param>
+        /// <param name="es_web"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public ActionResult Create(TipoPrueba prueba,int estrategia_id,bool es_web, HttpPostedFileBase file)
         {
             ViewData["estrategia_id"] = estrategia_id;
@@ -112,7 +121,7 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
                     //aqui va la logica de adjunto
                     //TODO:adjuntar y obtener la ruta
 
-                    string path = ConfigurationSettings.AppSettings["RutaScript"];
+                    string path = ConfigurationManager.AppSettings["RutaScript"];
 
                     estrategia.TipoPruebas.Add(prueba);
 
@@ -212,6 +221,11 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
             return new ReturnMessage();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="estrategia"></param>
+        /// <returns></returns>
         public List<TipoPrueba> listPruebas(int estrategia)
         {
             return null;
@@ -240,12 +254,12 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
                     Text = x.Nombre
                 }
             );
-
                 return new SelectList(selectMqTipoPruebas, "Value", "Text");
             }
 
             return null;
         }
+
 
         /// <summary>
         /// Cargar el archivo

@@ -286,6 +286,7 @@
     <Content Include="Views\_ViewImports.cshtml" />
     <Content Include="Views\PruebaEstrategia\Create.cshtml" />
     <Content Include="Views\Worker\WorkerStatusList.cshtml" />
+    <Content Include="Views\DetallePruebasEstrategia\EnviarPruebasCola.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

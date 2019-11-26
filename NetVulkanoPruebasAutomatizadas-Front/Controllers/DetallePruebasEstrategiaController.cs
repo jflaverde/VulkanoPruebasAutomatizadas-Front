@@ -45,6 +45,7 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
             estrategia.Estrategia_ID = estrategia_id;
             tipoPrueba.MQTipoPrueba.ID = id_mqTipoPrueba;
             estrategia.TipoPruebas.Add(tipoPrueba);
+            ReturnMessage message = new ReturnMessage();
 
             client.BaseAddress = new Uri(ConfigurationManager.AppSettings["APIURL"]);
 
@@ -52,8 +53,11 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
             if (request.IsSuccessStatusCode)
             {
                 var resultString = request.Content.ReadAsStringAsync().Result;
-           
+                message.TipoMensaje = TipoMensaje.Correcto;
+                message.Mensaje = "Mensaje se ha enviado a la cola correctamente";
             }
+
+            ViewData["responseMessage"] = message;
 
             return Index(estrategia_id);
            
@@ -66,17 +70,48 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
         /// <returns></returns>
         public ActionResult EnviarPruebasCola(int estrategia_id)
         {
+            int estrategiaStatus = GetEstrategiaStatus(estrategia_id).First().Key;
+            ReturnMessage message = new ReturnMessage();
+            //si la estrategia tiene un estado finalizado o finalizado con errores se permite enviar todo a la cola
+            if (estrategiaStatus == 3 || estrategiaStatus == 4)
+            {
+                HttpClient client = new HttpClient();
+
+                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["APIURL"]);
+
+                var request = client.PostAsync("RabbitMessages/SendRabbitMessages", estrategia_id, new JsonMediaTypeFormatter()).Result;
+                if (request.IsSuccessStatusCode)
+                {
+                    var resultString = request.Content.ReadAsStringAsync().Result;
+                    message.TipoMensaje = TipoMensaje.Correcto;
+                    message.Mensaje = "Todos los mensajes se han enviado a la cola correctamente";
+                }
+            }
+            else
+            {
+                message.TipoMensaje = TipoMensaje.Error;
+                message.Mensaje = "Para enviar todas las pruebas a la cola, el estado debe estar en Finalizado o Finalizado con errores";
+            }
+            ViewData["responseMessage"] = message;
+           
+            return View(estrategia_id);
+        }
+
+        public Dictionary<int,string> GetEstrategiaStatus(int estrategia_id)
+        {
             HttpClient client = new HttpClient();
 
             client.BaseAddress = new Uri(ConfigurationManager.AppSettings["APIURL"]);
 
-            var request = client.PostAsync("RabbitMessages/SendRabbitMessages", estrategia_id, new JsonMediaTypeFormatter()).Result;
+            var request = client.GetAsync("Estrategia/GetEstrategiaStatus/" + estrategia_id).Result;
             if (request.IsSuccessStatusCode)
             {
                 var resultString = request.Content.ReadAsStringAsync().Result;
+                var mensaje = JsonConvert.DeserializeObject<Dictionary<int,string>>(resultString);
 
+                return mensaje;
             }
-            return Index(estrategia_id);
+            return new Dictionary<int, string>();
         }
     }
 }
