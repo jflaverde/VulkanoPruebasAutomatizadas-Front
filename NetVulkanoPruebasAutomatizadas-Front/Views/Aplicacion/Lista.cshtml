@@ -1,4 +1,5 @@
 ﻿@using NetVulkanoPruebasAutomatizadas_Front.Models
+@using NetVulkanoPruebasAutomatizadas_Front.Controllers
 @{
     ViewData["Title"] = "Lista";
 }
@@ -26,11 +27,9 @@
             <div class="card-body table-full-width table-responsive">
                 <table class="table table-hover table-striped">
                     <thead>
-                    <th>Nombre</th>
-                    <th>Version</th>
-                    <th>Ubicación</th>
+                    <th>Nombre de la aplicacion</th>
                     <th>Es Web</th>
-                    <th>Descripción</th>
+                    <th>Descripcion</th>
                     <th>Opciones</th>
                     </thead>
                     <tbody>
@@ -38,8 +37,6 @@
                         {
                             <tr>
                                 <td>@aplicacion.Nombre</td>
-                                <td>@aplicacion.Version</td>
-                                <td>@aplicacion.Ruta_Aplicacion</td>
                                 @if (@aplicacion.Es_Web == true)
                                 {
                                     <td>Sí</td>
@@ -50,11 +47,14 @@
                                 }
                                 <td>@aplicacion.Descripcion</td>
                                 <td>
-                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Editar"><a href=@(Url.Action("Actualizar","Aplicacion", new { aplicacion.Aplicacion_ID }))><i class="nc-icon nc-settings-gear-64"></i></span>
+                                    <span style="cursor:pointer;" data-toggle="modal" data-id=@aplicacion.Aplicacion_ID data-target="#myModal" data-placement="top" title="Ver Versiones"><i class="nc-icon nc-notes"></i></span>
+                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Editar"><a href=@(Url.Action("Actualizar", "Aplicacion", new { aplicacion.Aplicacion_ID }))><i class="nc-icon nc-settings-gear-64"></i></span>
                                     &nbsp;&nbsp;
-                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Eliminar"><a href=@(Url.Action("Eliminar","Aplicacion", new { aplicacion_id = aplicacion.Aplicacion_ID }))><i class="nc-icon nc-simple-remove"></i></span>
+                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Eliminar"><a href=@(Url.Action("Eliminar", "Aplicacion", new { aplicacion_id = aplicacion.Aplicacion_ID }))><i class="nc-icon nc-simple-remove"></i></span>
                                 </td>
                             </tr>
+
+
                         }
                     </tbody>
                 </table>
@@ -62,3 +62,56 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Versiones de aplicaciones</h4>
+            </div>
+            <div class="modal-body">
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <th>Version</th>
+                        <th>Ruta Aplicacion</th>
+                        </thead>
+                        <tbody>
+                            @{
+                                var aplicacionController = new AplicacionController();
+                                var versiones = aplicacionController.VersionesAplicacion(1);
+
+                            }
+                            @foreach (var version in versiones)
+                            {
+
+                                <tr>
+                                    <td>@version.Numero</td>
+                                    <td>@version.Ruta_Aplicacion</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on("click", ".myModal", function () {
+        var versionID = $(this).data('id');
+        $(".modal-body #versionID").val(versionID);
+        // As pointed out in comments,
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+</script>
+

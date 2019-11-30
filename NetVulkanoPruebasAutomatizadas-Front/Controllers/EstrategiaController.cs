@@ -131,7 +131,7 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
                 .Select(x => new SelectListItem
                 {
                     Value = x.Aplicacion_ID.ToString(),
-                    Text = string.Concat(x.Nombre," ",x.Version)
+                    Text = x.Nombre
                 }
             );
 
@@ -171,8 +171,51 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
 
             return null;
         }
+
+        /// <summary>
+        /// lista las versiones de la aplicacion
+        /// </summary>
+        /// <param name="aplicacion_id"></param>
+        /// <returns></returns>
+        public IEnumerable<SelectListItem> VersionesAplicacion(int aplicacion_id)
+        {
+            HttpClient client = new HttpClient();
+
+            client.BaseAddress = new Uri(ConfigurationManager.AppSettings["APIURL"]);
+
+            var request = client.GetAsync("appversion/getappversion/" + aplicacion_id).Result;
+            List<AppVersion> versiones = new List<AppVersion>();
+            if (request.IsSuccessStatusCode)
+            {
+                var resultString = request.Content.ReadAsStringAsync().Result;
+                var mensaje = JsonConvert.DeserializeObject<ReturnMessage>(resultString);
+                versiones = JsonConvert.DeserializeObject<List<AppVersion>>(mensaje.obj.ToString());
+                var selectVersiones = versiones
+                .Select(x => new SelectListItem
+                {
+                    Value = x.AppVersion_id.ToString(),
+                    Text = x.Numero.ToString()
+                }
+                );
+                return new SelectList(selectVersiones, "Value", "Text");
+            }
+
+            return null;
+
+        }
+
+
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult CargarVersionesByAplicacion(int aplicacion_id)
+        {
+            var versiones = VersionesAplicacion(aplicacion_id);
+            return Json(versiones, JsonRequestBehavior.AllowGet);
+        }
     }
-    
+
+
+
     //public static class SessionExtensions
     //{
     //    public static void SetObject(this ISession session, string key, object value)

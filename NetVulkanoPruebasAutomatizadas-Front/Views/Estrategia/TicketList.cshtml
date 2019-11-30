@@ -46,19 +46,15 @@
                                 <td>@estrategia.Estrategia_ID</td>
                                 <td>@estrategia.Nombre</td>
                                 <td>@estrategia.Aplicacion.Nombre</td>
-                                <td>@estrategia.Aplicacion.Version</td>
+                                <td>@estrategia.Version.Numero</td>
                                 <td>@estrategia.Estado.Nombre</td>
                                 <td>
-                                    <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Editar"><i class="nc-icon nc-settings-gear-64"></i></span>
-                                    &nbsp;&nbsp;
                                     <a href=@(Url.Action("Index","DetallePruebasEstrategia", new { estrategia_id = estrategia.Estrategia_ID }))>
                                         <span style="cursor:pointer;" data-toggle="modal" data-target="#myModal" data-placement="top" title="Ver Pruebas"><i class="nc-icon nc-notes"></i></span>
                                         &nbsp;&nbsp;
                                         <a href=@(Url.Action("Create","PruebaEstrategia", new { estrategia_id = estrategia.Estrategia_ID, es_web=estrategia.Aplicacion.Es_Web }))>
                                             <span data-href style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Agregar Prueba"><i class="nc-icon nc-paper-2"></i></span>
-                                        </a>
-                                        &nbsp;&nbsp;
-                                        <span style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="nc-icon nc-simple-remove"></i></span>
+                                        </a>      
                                 </td>
                             </tr>
                         }

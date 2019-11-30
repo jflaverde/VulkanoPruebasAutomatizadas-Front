@@ -31,8 +31,6 @@
         $(document).ready(function () { LimpiarCamposAplicacion(); });
         function LimpiarCamposAplicacion() {
             $("#Nombre").val(''),
-                $("#Version").val(''),
-                $("#Ruta_Aplicacion").val(''),
                 $("#Es_Web").val('0'),
                 $("#Descripcion").val('')
         }
@@ -53,22 +51,6 @@
                                     <div class="form-group">
                                         <label>Nombre de la Aplicación</label>
                                         @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 pr-1">
-                                    <div class="form-group">
-                                        <label>Versión</label>
-                                        @Html.TextBoxFor(x => x.Version, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 pr-1">
-                                    <div class="form-group">
-                                        <label>Ruta de la aplicación</label>
-                                        @Html.TextBoxFor(x => x.Ruta_Aplicacion, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>

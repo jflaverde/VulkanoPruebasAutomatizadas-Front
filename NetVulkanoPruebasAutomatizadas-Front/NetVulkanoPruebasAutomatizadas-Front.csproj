@@ -131,6 +131,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AplicacionController.cs" />
+    <Compile Include="Controllers\AppVersionController.cs" />
     <Compile Include="Controllers\DetallePruebasEstrategiaController.cs" />
     <Compile Include="Controllers\EstrategiaController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
@@ -142,6 +143,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Aplicacion.cs" />
+    <Compile Include="Models\AppVersion.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Models\Estado.cs" />
     <Compile Include="Models\Estrategia.cs" />
@@ -243,6 +245,7 @@
     <Content Include="Content\lib\jquery-validation\LICENSE.md" />
     <Content Include="Content\lib\jquery\.bower.json" />
     <Content Include="Content\lib\jquery\dist\jquery.min.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -254,6 +257,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\AppVersion\modalVersiones.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -287,6 +291,8 @@
     <Content Include="Views\PruebaEstrategia\Create.cshtml" />
     <Content Include="Views\Worker\WorkerStatusList.cshtml" />
     <Content Include="Views\DetallePruebasEstrategia\EnviarPruebasCola.cshtml" />
+    <Content Include="Views\AppVersion\Create.cshtml" />
+    <Content Include="Views\DetallePruebasEstrategia\EnviarPruebaCola.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

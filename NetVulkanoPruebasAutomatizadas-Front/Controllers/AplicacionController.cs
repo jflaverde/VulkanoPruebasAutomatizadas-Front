@@ -107,5 +107,30 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Controllers
             ViewData["aplicaciones"] = aplicaciones;
             return View();
         }
+
+        /// <summary>
+        /// lista las versiones de la aplicacion
+        /// </summary>
+        /// <param name="aplicacion_id"></param>
+        /// <returns></returns>
+        public List<AppVersion> VersionesAplicacion(int aplicacion_id)
+        {
+            HttpClient client = new HttpClient();
+
+            client.BaseAddress = new Uri(ConfigurationManager.AppSettings["APIURL"]);
+
+            var request = client.GetAsync("appversion/getappversion/" + aplicacion_id).Result;
+            List<AppVersion> versiones = new List<AppVersion>();
+            if (request.IsSuccessStatusCode)
+            {
+                var resultString = request.Content.ReadAsStringAsync().Result;
+                var mensaje = JsonConvert.DeserializeObject<ReturnMessage>(resultString);
+                versiones = JsonConvert.DeserializeObject<List<AppVersion>>(mensaje.obj.ToString());
+                return versiones;
+            }
+            ViewData["versiones"] = versiones;
+            return new List<AppVersion>();
+            
+        }
     }
 }

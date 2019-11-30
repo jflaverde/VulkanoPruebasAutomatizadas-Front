@@ -22,12 +22,18 @@ namespace NetVulkanoPruebasAutomatizadas_Front.Models
         public Aplicacion Aplicacion { get; set; }
 
         [Required]
+        [Display(Name = "Version")]
+        public AppVersion Version { get; set; }
+
+        [Required]
         [Display(Name = "Tipos de Prueba")]
         public List<TipoPrueba> TipoPruebas { get; set; }
 
         public Estrategia()
         {
             TipoPruebas = new List<TipoPrueba>();
+            Aplicacion = new Aplicacion();
+            Version = new AppVersion();
             Estado = new Estado { ID = 1 };
         }
     }

@@ -11,6 +11,7 @@
 
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
     var aplicaciones = (IEnumerable<SelectListItem>)ViewData["aplicaciones"];
+    
     ReturnMessage response = new ReturnMessage();
     List<Aplicacion> objAplicaciones = (List<Aplicacion>)ViewData["objAplicaciones"];
     if (ViewData["responseMessage"] != null)
@@ -62,28 +63,22 @@
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
                                         <label>Aplicacion</label>
-                                        @Html.DropDownListFor(x => x.Aplicacion.Aplicacion_ID, (aplicaciones), new { @class = "form-control" })
+                                        @Html.DropDownListFor(x => x.Aplicacion.Aplicacion_ID, (aplicaciones), new { @class = "form-control", id="aplicacionList" })
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
-                                <div class="col-md-5 pr-1">
+                                <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Version de la aplicación</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-5 pr-1">
-                                    <div class="form-group">
-                                        <label>Es Web</label>
+                                        <label>Versiones</label>
+                                        @{
+                                            
+                                            @Html.DropDownListFor(x => x.Version.AppVersion_id, (Enumerable.Empty<SelectListItem>()), new { @class = "form-control", id="versionList" })
+                                        }
 
                                     </div>
                                 </div>
-                            </div>
-
-                            <div>
-
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -130,8 +125,31 @@
         <script>
             function Response() {
                 alert("@response.Mensaje");
-    }
+        }
         </script>
     }
-</form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#aplicacionList").change(function () {
+                var dID = $(this).val();
+                $.getJSON("../Estrategia/CargarVersionesByAplicacion", { aplicacion_id: dID },
+                    function (data) {
+                        var select = $("#versionList");
+                        select.empty();
+                        select.append($('<option/>', {
+                            value: 0,
+                            text: "Select a version"
+                        }));
+                        $.each(data, function (index, itemData) {
+                            select.append($('<option/>', {
+                                value: itemData.Value,
+                                text: itemData.Text
+                            }));
+                        });
+                    });
+            });
+        });
+        </script>
+</form >
 
